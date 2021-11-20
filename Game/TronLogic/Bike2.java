@@ -1,12 +1,9 @@
 package TronLogic;
 
 import Graphics.GraphicsGroup;
-import Graphics.GraphicsObject;
 import Graphics.Rectangle;
 import java.awt.Color;
 import java.util.Random;
-
-import java.util.ArrayList;
 
 public class Bike2 extends Rectangle { //CHANGE TO ICON AFTER ALL TESTS PASS
 
@@ -37,9 +34,6 @@ public class Bike2 extends Rectangle { //CHANGE TO ICON AFTER ALL TESTS PASS
     // Used to help draw the rectangle that is the current line behind the bike
     private Rectangle currentLine;
     private double x, y;
-
-    // Used so that when the biker is turning, it doesn't collide with the previous line it just drew
-    private Rectangle previousLine;
 
     // Used to keep track of lines so that once the bike is destroyed, it removes all of the lines
     private GraphicsGroup group;
@@ -87,8 +81,6 @@ public class Bike2 extends Rectangle { //CHANGE TO ICON AFTER ALL TESTS PASS
     }
 
     private void createLine() {
-        // Saves the previous rectangle for collision checking
-        previousLine = currentLine;
 
         // Creates new rectangle to now follow the bike
         currentLine = new Rectangle(0, 0, LINE_WIDTH, LINE_WIDTH);
