@@ -12,3 +12,5 @@ The host can also be a player. To do so, simply duplicate the workspace, and run
 A brief note: this game works really well if the server computer is connected to the router via ethernet. Because of the use of sockets, it is unpredictable whether you will be able to connect or not depending on how the router and wifi is setup at your location. Best performace occurs if everyone is connected via ethernet to the router, and if you use the most powerful computer as the host.
 
 Good luck and have fun in Tron!
+
+Graphics Group from Macalester Kilt-Graphics library.
