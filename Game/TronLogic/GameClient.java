@@ -20,7 +20,7 @@ public class GameClient {
     public GameClient() throws IOException {
 
         // need host and port, we want to connect to the ServerSocket at port 7777
-        socket = new Socket("141.140.125.28", 7777); // Host is ip address, if set to "localhost", I'm assuming it automatically sets it to closest IP address?
+        socket = new Socket("141.140.88.97", 7777); // Host is ip address, if set to "localhost", I'm assuming it automatically sets it to closest IP address?
         System.out.println("Connected!");
 
         // get the output stream from the socket.

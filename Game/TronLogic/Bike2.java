@@ -42,13 +42,16 @@ public class Bike2 extends Rectangle { //CHANGE TO ICON AFTER ALL TESTS PASS
     private Rectangle previousLine;
 
     // Used to keep track of lines so that once the bike is destroyed, it removes all of the lines
-    private ArrayList<GraphicsObject> group;
+    private GraphicsGroup group;
 
     private boolean isAlive = true;
 
     public Bike2(double startX, double startY) {
         super(0, 0, BIKER_DIMENSIONS, BIKER_DIMENSIONS);
-        group = new ArrayList<>();
+        group = new GraphicsGroup();
+
+        // Adds the graphics from this bike to the canvas
+        MainLoop3.getLines().add(group);
 
         setCenter(startX, startY);
 
@@ -97,9 +100,6 @@ public class Bike2 extends Rectangle { //CHANGE TO ICON AFTER ALL TESTS PASS
         currentLine.setStroked(false);
         currentLine.setFillColor(color);
 
-        // Adds to graphics group connected to canvas
-        MainLoop3.getLines().add(currentLine);
-
         // Adds to group that saves all the lines that have been drawn by this bike
         group.add(currentLine);
     }
@@ -120,13 +120,6 @@ public class Bike2 extends Rectangle { //CHANGE TO ICON AFTER ALL TESTS PASS
             double toCheckPointX = currentX + dx / SPEED * RADIUS;
             double toCheckPointY = currentY + dy / SPEED * RADIUS;
 
-            // Removes the previous line and the current line so that when checking for collision, it doesn't check those two lines
-            Lines.remove(currentLine);
-
-            // Only occurs if the player just goes in a straight line into the border
-            if (previousLine != null) {
-                Lines.remove(previousLine);
-            }
             // Checks for collision with the rest of the lines at the edge of the direction it's currently going
             // There are three points to check to ensure that the line doesn't slip through
             if (Lines.getElementAt(toCheckPointX, toCheckPointY) != null || 
@@ -134,20 +127,10 @@ public class Bike2 extends Rectangle { //CHANGE TO ICON AFTER ALL TESTS PASS
                 Lines.getElementAt(toCheckPointX - dy / SPEED * RADIUS, toCheckPointY - dx / SPEED * RADIUS) != null) {
                 // If this occurs, then that player lost, so now we begin the process of removing everything related to them from the game
 
-                // Remove from the biker gang (both the list and the canvas)
+                // Remove from the biker gang
                 MainLoop3.destroyBike(this);
 
-                // Removes the two elements that have already been removed from Lines from the GraphicsGroup 
-                // that holds all the lines drawn by this bike...
-                group.remove(currentLine);
-                // Again, if the player runs in a straight line and hits something
-                if (previousLine != null) {
-                    group.remove(previousLine);
-                }
-
-                // So that we don't run into errors in this section which removes all of the lines this bike drew
-                group.forEach(Lines::remove);
-                group.clear();
+                Lines.remove(group);
 
                 // Makes isAlive = false so that it's removed from the aliveBikers list so that it's moveBy() method isn't called
                 // Just helps with processing power
@@ -158,14 +141,6 @@ public class Bike2 extends Rectangle { //CHANGE TO ICON AFTER ALL TESTS PASS
                 // Because the lines graphicsgroup moves, include this to recenter it based on CANVAS center
                 currentLine.setSize(Math.abs(currentX - x) + LINE_WIDTH, Math.abs(currentY - y) + LINE_WIDTH);
                 currentLine.setCenter((currentX + x) / 2 + totalMovementX, (currentY + y) / 2 + totalMovementY);
-
-                // Added back in so that the other bikes can collide with them
-                Lines.add(currentLine);
-
-                // Adds back the previousLine
-                if (previousLine != null) {
-                    Lines.add(previousLine);
-                }
             }
         }
     }
